@@ -1,18 +1,37 @@
 <template>
   <div class="home">
-    <img alt="Vue logo" src="../assets/logo.png">
-    <HelloWorld msg="Welcome to Your Vue.js App"/>
+      <i>"{{quote}}"</i>
+      <p>-Kanye West</p>
+
+      <button @click="getData">Change Quote</button>
   </div>
 </template>
 
 <script>
 // @ is an alias to /src
-import HelloWorld from '@/components/HelloWorld.vue'
-
+import axios from 'axios'
+import {ref} from 'vue'
 export default {
   name: 'HomeView',
   components: {
-    HelloWorld
+  
+  },
+  setup () {
+    let quote = ref('');
+     return{
+      quote
+     }
+  },
+  mounted() {
+    this.getData()
+  }, 
+  methods: {
+     getData(){
+        axios.get('https://api.kanye.rest/').then(response => {
+        // handle response
+        this.quote = response.data.quote
+       })
+     }
   }
 }
 </script>
